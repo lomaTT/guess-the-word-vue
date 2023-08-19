@@ -38,7 +38,7 @@ const emit = defineEmits<{
       <h2 v-if="gameStatus === 'win'">Congrats, you won! 😃</h2>
       <template v-else>
         <h2>You lost... 😕</h2>
-        <h3>... word: {{word[0].toUpperCase() + word.slice(1)}}</h3>
+        <h3>... word: {{word}}</h3>
       </template>
       <button @click="emit('restart')">Play again</button>
     </div>

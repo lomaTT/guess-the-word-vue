@@ -1,6 +1,7 @@
 <script setup lang="ts">
   interface Props {
-    word: string
+    word: string,
+    correctLetters: string[]
   }
 
   defineProps<Props>();
@@ -9,6 +10,8 @@
 
 <template>
   <div class="word">
-    <span v-for="(letter, index) in word" :key="index" class="letter"></span>
+    <span v-for="(letter, index) in word" :key="index" class="letter">
+      {{ correctLetters.includes(letter) ? letter : `` }}
+    </span>
   </div>
 </template>

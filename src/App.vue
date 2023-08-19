@@ -18,15 +18,24 @@
     return false;
   }
 
-  const word = ref("Aliaksei");
+  const word = ref("aliaksei");
   const letters = ref<string[]>([]);
 
-  const correctLetters = computed(() => {
-    letters.value.filter(x => word.value.includes(x));
-  })
+  const correctLetters = computed(() => letters.value.filter(x => word.value.includes(x)));
+  const wrongLetters = computed(() => letters.value.filter(x => !word.value.includes(x)));
+
+  const notification = ref<InstanceType<typeof GameNotification> | null>(null);
+  
+
+  
 
   window.addEventListener("keydown", ({key}) => {
-    // console.log(key);
+    if (letters.value.includes(key)) {
+      notification.value?.open();
+      setTimeout(() => notification.value?.close(), 2000);
+      return;
+    }
+
     if (checkSymbol(key)) {
       letters.value.push(key.toLowerCase());
     }
@@ -35,15 +44,18 @@
 
 
 <template>
+  {{ correctLetters }}
+  {{ wrongLetters }}
+
   <GameHeader />
   <div class="game-container">
     <GameFigure />
-    <GameWrongLetters />
-    <GameWord :word="word" />
+    <GameWrongLetters :wrongLetters="wrongLetters" />
+    <GameWord :word="word" :correctLetters="correctLetters" />
   </div>
 
   <!-- Container for final message -->
     <GamePopup v-if="false" />
   <!-- Notification -->
-    <GameNotification />
+    <GameNotification ref="notification" />
 </template>
